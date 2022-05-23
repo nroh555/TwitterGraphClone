@@ -47,6 +47,8 @@ public class NodesStackAndQueue<T> {
 	 * @return object of the top element
 	 * @throws EmptyStackException if the stack is empty
 	 */
+
+	// Changed the return type to return generic type T from Node
 	public T pop() throws EmptyStackException {
 		if (isEmpty()) {
 			throw new EmptyStackException();
@@ -68,6 +70,8 @@ public class NodesStackAndQueue<T> {
 	 * @return the value of the top element
 	 * @throws EmptyStackException if the stack is empty
 	 */
+
+	// Changed the return type to return generic type T from Node
 	public T peek() throws EmptyStackException {
 		if (isEmpty()) {
 			throw new EmptyStackException();
