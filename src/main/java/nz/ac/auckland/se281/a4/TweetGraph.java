@@ -1,5 +1,6 @@
 package nz.ac.auckland.se281.a4;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,14 @@ public class TweetGraph extends Graph {
 
 	public List<Tweet> getTweets(Node n) {
 		return nodeTweets.get(n);
+	}
+
+	public List<String> getTweetsTexts(TwitterHandle n){
+		List<String> texts = new ArrayList<>(); // Only allowed to use ArrayList HERE !!!
+		for(Tweet t : getTweets(n)){
+			texts.add(t.getTextString());
+		}
+		return texts;
 	}
 
 	// search for a keyword in a tweet starting from a given node

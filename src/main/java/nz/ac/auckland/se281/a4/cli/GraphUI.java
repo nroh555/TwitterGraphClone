@@ -1,6 +1,6 @@
 package nz.ac.auckland.se281.a4.cli;
-//*******************************
 
+//*******************************
 //YOU SHOULD NOT MODIFY THIS CLASS
 //*******************************
 
@@ -16,6 +16,7 @@ import java.util.Scanner;
 import com.google.gson.JsonIOException;
 
 import nz.ac.auckland.se281.a4.Tweet;
+import nz.ac.auckland.se281.a4.TwitterHandle;
 import nz.ac.auckland.se281.a4.ds.Node;
 
 /**
@@ -25,7 +26,7 @@ import nz.ac.auckland.se281.a4.ds.Node;
  * @author PARTHA ROOP
  */
 public class GraphUI {
-	// This stores the file
+	// This stores the file 
 	private String fileName;
 	private String filePath;
 	// This is set to true if a valid file has been opened
@@ -36,6 +37,11 @@ public class GraphUI {
 	private final List<String> fileLines;
 	private final List<String> setElements;
 	private final List<String> relationElements;
+	// private final List<String> weightElements;
+
+	// fields for the tweets
+	// private final CreateJsonTweets cJT;
+
 	public static Scanner scanner = new Scanner(System.in);
 
 	public GraphUI() {
@@ -58,10 +64,8 @@ public class GraphUI {
 	}
 
 	/**
-	 * This method opens the file
-	 * 
+	 * This method opens the file 
 	 * @param file
-	 *            the file to be opened
 	 */
 	public void open(String file) {
 		setFileName(file);
@@ -87,7 +91,6 @@ public class GraphUI {
 	/**
 	 * 
 	 * @param elements
-	 *            the elements to be added
 	 * @return String of elements separated by ","
 	 */
 	private String concatenateElements(Enumeration<String> elements) {
@@ -106,9 +109,7 @@ public class GraphUI {
 
 	/**
 	 * This method sets the file name
-	 * 
 	 * @param file
-	 *            the file name
 	 */
 	public void setFileName(String file) {
 		fileName = file;
@@ -123,11 +124,10 @@ public class GraphUI {
 	 */
 	public String getFileName() {
 		return fileName;
-	}
+	}	
 
 	/**
 	 * This method gets the file path
-	 * 
 	 * @return file path
 	 */
 	public String getFilePath() {
@@ -136,7 +136,6 @@ public class GraphUI {
 
 	/**
 	 * This method gets the file status
-	 * 
 	 * @return file status
 	 */
 	public boolean getFileStatus() {
@@ -161,7 +160,6 @@ public class GraphUI {
 
 	/**
 	 * This method gets the set elements
-	 * 
 	 * @return set elements
 	 */
 	public List<String> getSetElements() {
@@ -169,8 +167,21 @@ public class GraphUI {
 	}
 
 	/**
+	 * This method returns the set elements with associated user names
+	 * @return
+	 */
+	public List<String> getListTwitterHandle(){
+		List<String> listTwitterHandle = new ArrayList<>();
+		for (String s : setElements) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(s + " {" + new TwitterHandle(s).getName() + "}");
+			listTwitterHandle.add(sb.toString());
+		}
+		return listTwitterHandle;
+	}
+
+	/**
 	 * This method gets the relation elements
-	 * 
 	 * @return relation elements
 	 */
 	public List<String> getRelationElements() {
@@ -186,11 +197,8 @@ public class GraphUI {
 
 	/**
 	 * This method lists the eq-class
-	 * 
 	 * @param node
-	 *            The "TwitterHandle" node to find eq-class
 	 * @param set
-	 *            is the set of nodes in the graph that are equivalent to node
 	 */
 	protected void listEqClass(String node, List<String> set) {
 		System.out.println("The eq-class of: [" + node + "] = " + concatenateElements(Collections.enumeration(set)));
@@ -198,21 +206,16 @@ public class GraphUI {
 
 	/**
 	 * This method lists the nodes visited (in order) using DFS
-	 * 
 	 * @param dFSOrderedList
-	 *            The list of nodes visited in DFS order
 	 */
 	protected void listDFS(List<Node<String>> dFSOrderedList) {
 		for (Node<String> nextUser : dFSOrderedList) {
 			System.out.println("The next user visited in DFS order is: " + "[" + nextUser.getValue() + "]");
 		}
 	}
-
 	/**
 	 * This method lists the nodes visited (in order) using BFS
-	 * 
 	 * @param bFSOrderedList
-	 *            The list of nodes visited in BFS order
 	 */
 	protected void listBFS(List<Node<String>> bFSOrderedList) {
 		for (Node<String> nextUser : bFSOrderedList) {
@@ -243,10 +246,8 @@ public class GraphUI {
 
 	/**
 	 * This method creates the file name
-	 * 
 	 * @param file
-	 *            the file name
-	 * @return Path to file
+	 * @return
 	 */
 	private String createFileName(String file) {
 		String line = System.getProperty("user.dir");
@@ -309,11 +310,9 @@ public class GraphUI {
 	}
 
 	/**
-	 * This method creates tokens bases on the
+	 * This method creates tokens bases on the 
 	 * graph edge
 	 * 
-	 * @param line
-	 *            The graph edge
 	 * @return String[] of tokens
 	 */
 	private String[] makeTokensGraphEdge(String line) {
@@ -354,12 +353,9 @@ public class GraphUI {
 
 	/**
 	 * This method loads tweets into the graph
-	 * 
 	 * @return List of tweets
 	 * @throws JsonIOException
-	 *             If Json file can not be read
 	 * @throws IOException
-	 *             If file can not be found
 	 */
 	public List<Tweet> loadTweets() throws JsonIOException, IOException {
 		// List<Tweet> loadedTweets = cJT.loadTweetsFromJson();
