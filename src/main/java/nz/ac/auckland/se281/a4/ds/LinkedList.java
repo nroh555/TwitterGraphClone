@@ -34,12 +34,11 @@ public class LinkedList<T> {
 		}
 
 		else {
-			int i = 0;
 			Node<T> start = head;
-			while (i < pos) {
-				start.setNext(start);
-				i++;
+			for (int i = 0; i < pos; i++) {
+				start = start.getNext();
 			}
+
 			return start;
 		}
 	}
@@ -71,19 +70,16 @@ public class LinkedList<T> {
 		// Checks if there is an element in the list
 		if (head == null) {
 			head = n;
-			return;
 		}
 
-		Node<T> last = head;
-		Node<T> temp = last;
-		while (last != null) {
-			// A temporary node to store the last node before it is null
-			temp = last;
-			last = last.getNext();
+		else {
+			Node<T> temp = head;
+			for (int i = 0; i < this.size() - 1; i++) {
+				temp = temp.getNext();
+			}
+			// Appends the next node of the last node
+			temp.setNext(n);
 		}
-
-		// Appends the next node of the last node
-		temp.setNext(n);
 	}
 
 	/**
@@ -112,26 +108,29 @@ public class LinkedList<T> {
 	 *                                  size-1
 	 */
 	public void insert(int pos, T element) throws InvalidPositionException {
-		if (pos > this.size() - 1 || pos < 0) {
-			throw new InvalidPositionException();
+
+		// Wants to insert in between two nodes
+		if (pos < this.size() - 1 || pos > 0) {
+			// Determines the previous node for the desired position to be inserted
+			Node<T> newNode = new Node<T>(element);
+			Node<T> previous = this.locateNode(pos - 1);
+			// Sets the next node of the previous node to the desired inserted node
+			newNode.setNext(previous.getNext());
+			previous.setNext(newNode);
+		}
+
+		// If want to insert at the first position
+		else if (pos == 0) {
+			this.prepend(element);
+		}
+
+		// If want to insert at the end
+		else if (pos == this.size() - 1) {
+			this.append(element);
 		}
 
 		else {
-			// If want to insert at the first position
-			if (pos == 0) {
-				this.prepend(element);
-			}
-
-			// If want to insert at the end
-			else if (pos == this.size() - 1) {
-				this.append(element);
-			}
-
-			// If want to insert in the middle
-			else {
-
-			}
-
+			throw new InvalidPositionException();
 		}
 
 	}
@@ -149,22 +148,24 @@ public class LinkedList<T> {
 		}
 
 		else {
-			Node<T> previous = head;
-			int count = 1;
-			while (count < pos - 1) {
-				previous = previous.getNext();
-				count++;
+
+			// The case when the first element needs to be deleted an there is no previous
+			// node
+			if (pos == 0) {
+				// Not deleted the memory of the heads
+				this.head = this.head.getNext();
+
 			}
 
-			Node<T> current = previous.getNext();
-			while (count < this.size() - 1) {
+			else {
+				// Determines the previous node for the desired node to be deleted
+				Node<T> previous = locateNode(pos - 1);
+
+				// The node to be deleted
+				Node<T> current = previous.getNext();
 				previous.setNext(current.getNext());
-				previous = current;
-				current = current.getNext();
-				count++;
+				current = null;
 			}
-
-			current.setNext(null);
 		}
 	}
 
@@ -196,11 +197,4 @@ public class LinkedList<T> {
 			node = node.getNext();
 		}
 	}
-
-	/**
-	 * This method is used for access the previous node of the desired node
-	 * 
-	 * @param pos: The position of the desired node
-	 * @return Node<T> : The previous node of the desired node
-	 */
 }
