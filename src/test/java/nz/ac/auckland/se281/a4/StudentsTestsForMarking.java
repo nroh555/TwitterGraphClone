@@ -39,11 +39,8 @@ import nz.ac.auckland.se281.a4.ds.NodesStackAndQueue;
 		StudentsTestsForMarking.Task1NodeStackAndQueueExceptionTest.class,
 
 		StudentsTestsForMarking.Task2LinkedListTest.class, StudentsTestsForMarking.Task2LinkedListGenericsTest.class,
-
-// StudentsTestsForMarking.Task3ReflexiveTest.class,
-// StudentsTestsForMarking.Task3SymmetricTest.class,
-// StudentsTestsForMarking.Task3TransitiveTest.class,
-// StudentsTestsForMarking.Tast3EquivalenceTest.class,
+		StudentsTestsForMarking.Task3ReflexiveTest.class, StudentsTestsForMarking.Task3SymmetricTest.class,
+		StudentsTestsForMarking.Task3TransitiveTest.class, StudentsTestsForMarking.Tast3EquivalenceTest.class,
 // StudentsTestsForMarking.Task3EquivalenceClassTest.class,
 // StudentsTestsForMarking.Task3BFSTest.class,
 // StudentsTestsForMarking.Task3DFSTest.class,
