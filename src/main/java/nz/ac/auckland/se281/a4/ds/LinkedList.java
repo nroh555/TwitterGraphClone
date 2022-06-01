@@ -28,7 +28,7 @@ public class LinkedList<T> {
 	 */
 
 	// Changed the return type for this function from Node to Node<T>
-	private Node<T> locateNode(int pos) throws InvalidPositionException {
+	public Node<T> locateNode(int pos) throws InvalidPositionException {
 		if (pos > this.size() - 1 || pos < 0) {
 			throw new InvalidPositionException();
 		}

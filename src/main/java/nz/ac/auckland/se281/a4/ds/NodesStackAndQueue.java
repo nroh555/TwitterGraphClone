@@ -1,6 +1,8 @@
 package nz.ac.auckland.se281.a4.ds;
 
 import java.util.EmptyStackException;
+import java.util.Enumeration;
+
 //*******************************
 //YOU SHOUD MODIFY THE SPECIFIED 
 //METHODS  OF THIS CLASS
@@ -16,6 +18,8 @@ public class NodesStackAndQueue<T> {
 	public NodesStackAndQueue() {
 		head = null;
 	}
+
+	Enumeration<String> eq;
 
 	/**
 	 * Checks if the stack / queue is empty

@@ -1,5 +1,6 @@
 package nz.ac.auckland.se281.a4.ds;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -143,6 +144,7 @@ public class Graph {
 					String transitive = source + "," + targetNext;
 
 					if (!(relation.contains(transitive))) {
+						System.out.println("For the graph to be transitive tuple: " + transitive + " MUST be present");
 						return false;
 					}
 				}
@@ -192,7 +194,33 @@ public class Graph {
 	 * @return List that is the equivalence class
 	 */
 	public List<String> computeEquivalence(String node, List<String> set, List<String> relation) {
-		throw new java.lang.UnsupportedOperationException("Not supported yet.");
+		if (this.isEquivalence(set, relation)) {
+			List<String> eqClass = new ArrayList<String>();
+			for (String s : relation) {
+				// Splits each of the element in the relation to a source and target
+				String[] element = s.split(",", 2);
+				String source = element[0];
+				String target = element[1];
+				// If source equals to node then the target must exist in the eqClass
+				if ((source.equals(node)) && (!(eqClass.contains(target)))) {
+					eqClass.add(target);
+				}
+
+				// If target equals to node then the soruce must exist in the eqClass
+				else if ((target.equals(node)) && (!(eqClass.contains(source)))) {
+					eqClass.add(source);
+				}
+			}
+
+			return eqClass;
+		}
+
+		else
+
+		{
+			System.out.println("Can't compute equivalence class as this is not an equivalence relation");
+			return null;
+		}
 	}
 
 	/**
@@ -212,8 +240,53 @@ public class Graph {
 	 * @param start A "TwitterHandle" in the graph
 	 * @return List of nodes (as strings) using the BFS algorithm
 	 */
-	public List<Node<String>> breadthFirstSearch(Node<String> start, boolean rooted) {// name to breadthFirstSearch
-		throw new java.lang.UnsupportedOperationException("Not supported yet.");
+	public List<Node<String>> breadthFirstSearch(Node<String> start, boolean rooted) {
+		if (rooted) {
+			this.root = start;
+		}
+
+		// Creates a queue for the BFS
+		LinkedList<Node<String>> queue = new LinkedList<Node<String>>();
+
+		// Creates a list to store all the visited nodes
+		List<Node<String>> visited = new ArrayList<Node<String>>();
+
+		visited.add(root);
+		queue.append(root);
+
+		while (queue.size() != 0 || visited.size() < adjacencyMap.keySet().size()) {
+
+			// Creates a variable that determine the previous size of the visited iteration
+			// to check for connectedness
+			int prevSize = visited.size();
+
+			for (int i = 0; i < adjacencyMap.get(root).size(); i++) {
+				if (!(visited.contains(adjacencyMap.get(root).get(i).getTarget()))) {
+					queue.append(adjacencyMap.get(root).get(i).getTarget());
+				}
+			}
+
+			// Adds the element front of the queue to the visited list nodes
+			if (!(visited.contains(queue.get(0)))) {
+				visited.add(queue.get(0));
+			}
+
+			// In the case when there are not connected components
+			if (!rooted && visited.size() < adjacencyMap.keySet().size() && visited.size() == prevSize) {
+				this.root = getNextNode();
+				visited.add(root);
+				continue;
+			}
+
+			// Only deals with connected components
+			else {
+				this.root = queue.get(0);
+			}
+
+			queue.remove(0);
+		}
+
+		return visited;
 
 	}
 
@@ -233,7 +306,81 @@ public class Graph {
 	 * @return List of nodes (as strings) using the DFS algorithm
 	 */
 	public List<Node<String>> depthFirstSearch(Node<String> start, boolean rooted) {
-		throw new java.lang.UnsupportedOperationException("Not supported yet.");
+
+		if (rooted) {
+			this.root = start;
+		}
+
+		// Creates a stack for the DFS
+		LinkedList<Node<String>> stack = new LinkedList<Node<String>>();
+
+		// Creates a list to store all the visited nodes
+		List<Node<String>> visited = new ArrayList<Node<String>>();
+
+		visited.add(root);
+		stack.prepend(root);
+
+		while (stack.size() != 0 || visited.size() < adjacencyMap.keySet().size()) {
+
+			// Creates a variable that determine the previous size of the visited iteration
+			// to check for connectedness
+			int prevSize = visited.size();
+
+			for (int i = 0; i < adjacencyMap.get(root).size(); i++) {
+				if (!(visited.contains(adjacencyMap.get(root).get(i).getTarget()))) {
+					stack.prepend(adjacencyMap.get(root).get(i).getTarget());
+				}
+			}
+
+			// Adds the top element of the stack to the visited list nodes
+			if (!(visited.contains(stack.get(0)))) {
+				visited.add(stack.get(0));
+			}
+
+			// In the case when there are not connected components
+			if (!rooted && visited.size() < adjacencyMap.keySet().size() && visited.size() == prevSize) {
+				this.root = getNextNode();
+				visited.add(root);
+				continue;
+			}
+
+			// Only deals with connected components
+			else {
+				this.root = stack.get(0);
+			}
+
+			stack.remove(0);
+		}
+
+		return visited;
+
+	}
+
+	/**
+	 * This method would determine the next node in textual order of a graph that is
+	 * not connected
+	 * 
+	 * @return The next node in textual order
+	 */
+
+	public Node<String> getNextNode() {
+		boolean next = false;
+		for (Node<String> nextNode : adjacencyMap.keySet()) {
+			if (nextNode.equals(root)) {
+				// Skips the current iteration the moment the desired not connected node is
+				// found
+				next = true;
+				continue;
+			}
+
+			if (next) {
+				// The next node in textual order
+				return nextNode;
+			}
+		}
+
+		return null;
+
 	}
 
 	/**
