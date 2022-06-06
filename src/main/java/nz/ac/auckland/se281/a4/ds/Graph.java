@@ -251,7 +251,6 @@ public class Graph {
 		// Creates a list to store all the visited nodes
 		List<Node<String>> visited = new ArrayList<Node<String>>();
 
-		visited.add(root);
 		queue.append(root);
 
 		while (queue.size() != 0 || visited.size() < adjacencyMap.keySet().size()) {
@@ -259,6 +258,8 @@ public class Graph {
 			// Creates a variable that determine the previous size of the visited iteration
 			// to check for connectedness
 			int prevSize = visited.size();
+			int prevQueueSize = queue.size();
+			Node<String> prevRoot = root;
 
 			for (int i = 0; i < adjacencyMap.get(root).size(); i++) {
 				if (!(visited.contains(adjacencyMap.get(root).get(i).getTarget()))) {
@@ -272,15 +273,26 @@ public class Graph {
 			}
 
 			// In the case when there are not connected components
-			if (!rooted && visited.size() < adjacencyMap.keySet().size() && visited.size() == prevSize) {
+			if (!rooted && visited.size() < adjacencyMap.keySet().size() && visited.size() == prevSize
+					&& prevQueueSize == queue.size()) {
 				this.root = getNextNode();
-				visited.add(root);
+				// The case when we have reached the end of the textual order
+				if (this.root == null) {
+					return visited;
+				}
+
+				if (!(visited.contains(root))) {
+					visited.add(root);
+				}
 				continue;
 			}
 
 			// Only deals with connected components
 			else {
 				this.root = queue.get(0);
+				if (!(adjacencyMap.containsKey(root))) {
+					this.root = prevRoot;
+				}
 			}
 
 			queue.remove(0);
@@ -325,6 +337,7 @@ public class Graph {
 			// Creates a variable that determine the previous size of the visited iteration
 			// to check for connectedness
 			int prevSize = visited.size();
+			Node<String> prevRoot = root;
 
 			for (int i = 0; i < adjacencyMap.get(root).size(); i++) {
 				if (!(visited.contains(adjacencyMap.get(root).get(i).getTarget()))) {
@@ -340,13 +353,23 @@ public class Graph {
 			// In the case when there are not connected components
 			if (!rooted && visited.size() < adjacencyMap.keySet().size() && visited.size() == prevSize) {
 				this.root = getNextNode();
-				visited.add(root);
+				// The case when we have reached the end of the textual order
+				if (this.root == null) {
+					return visited;
+				}
+
+				if (!(visited.contains(root))) {
+					visited.add(root);
+				}
 				continue;
 			}
 
 			// Only deals with connected components
 			else {
 				this.root = stack.get(0);
+				if (!(adjacencyMap.containsKey(root))) {
+					this.root = prevRoot;
+				}
 			}
 
 			stack.remove(0);
