@@ -253,7 +253,7 @@ public class Graph {
 
 		queue.append(root);
 
-		while (queue.size() != 0 || visited.size() < adjacencyMap.keySet().size()) {
+		while (queue.size() != 0) {
 
 			// Creates a variable that determine the previous size of the visited iteration
 			// to check for connectedness
@@ -329,14 +329,15 @@ public class Graph {
 		// Creates a list to store all the visited nodes
 		List<Node<String>> visited = new ArrayList<Node<String>>();
 
-		visited.add(root);
 		stack.prepend(root);
+		visited.add(root);
 
-		while (stack.size() != 0 || visited.size() < adjacencyMap.keySet().size()) {
+		while (stack.size() != 0) {
 
 			// Creates a variable that determine the previous size of the visited iteration
 			// to check for connectedness
 			int prevSize = visited.size();
+			int prevStackSize = stack.size();
 			Node<String> prevRoot = root;
 
 			for (int i = 0; i < adjacencyMap.get(root).size(); i++) {
@@ -351,7 +352,8 @@ public class Graph {
 			}
 
 			// In the case when there are not connected components
-			if (!rooted && visited.size() < adjacencyMap.keySet().size() && visited.size() == prevSize) {
+			if (!rooted && visited.size() < adjacencyMap.keySet().size() && visited.size() == prevSize
+					&& prevStackSize == stack.size()) {
 				this.root = getNextNode();
 				// The case when we have reached the end of the textual order
 				if (this.root == null) {
@@ -374,14 +376,13 @@ public class Graph {
 
 			stack.remove(0);
 		}
-
 		return visited;
 
 	}
 
 	/**
 	 * This method would determine the next node in textual order of a graph that is
-	 * not connected
+	 * not connected provided rooted is false
 	 * 
 	 * @return The next node in textual order
 	 */

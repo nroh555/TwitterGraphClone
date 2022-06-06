@@ -1083,14 +1083,16 @@ public class StudentsTestsForMarking {
 			file2result_tweet_search.put("a.txt",
 					"The tweet string found is: Some month worryed under some chill by any step-grandmother mated the path.\n"
 							+ "User Miss Natalie Bruen {0} tweeted mother");
-
 			file2result_tweet_search.put("c.txt",
 					"The tweet string found is: Any psychology landed into one otter on the branch invited any squirrel.\n"
 							+ "User Lauretta Crona {2} tweeted otter");
-
 			file2result_tweet_search.put("f.txt",
 					"The tweet string found is: A girl afforded towards any bonsai over a jumper stroked the otter.\n"
 							+ "User Hailey Bartoletti {7} tweeted girl");
+			file2result_tweet_search.put("g2.txt", "No successor of Delpha Dickinsontweeted puffyBard");
+			file2result_tweet_search.put("h1.txt",
+					"The tweet string found is: Any psychology landed into one otter on the branch invited any squirrel.\n"
+							+ "User Lauretta Crona {2} tweeted otter");
 
 		}
 
@@ -1111,18 +1113,28 @@ public class StudentsTestsForMarking {
 		}
 
 		@Test
-		public void T3_01_A() {
+		public void T4_01_A() {
 			runTest("a.txt", "0", "mother");
 		}
 
 		@Test
-		public void T3_03_C() {
+		public void T4_03_C() {
 			runTest("c.txt", "2", "otter");
 		}
 
 		@Test
-		public void T3_06_F() {
+		public void T4_06_F() {
 			runTest("f.txt", "7", "girl");
+		}
+
+		@Test
+		public void T4_08_G2() {
+			runTest("g2.txt", "1", "puffyBard");
+		}
+
+		@Test
+		public void T4_09_H1() {
+			runTest("h1.txt", "2", "otter");
 		}
 	}
 

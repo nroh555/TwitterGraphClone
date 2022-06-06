@@ -33,16 +33,44 @@ public class TweetGraph extends Graph {
 		return nodeTweets.get(n);
 	}
 
-	public List<String> getTweetsTexts(TwitterHandle n){
+	public List<String> getTweetsTexts(TwitterHandle n) {
 		List<String> texts = new ArrayList<>(); // Only allowed to use ArrayList HERE !!!
-		for(Tweet t : getTweets(n)){
+		for (Tweet t : getTweets(n)) {
 			texts.add(t.getTextString());
 		}
 		return texts;
 	}
 
+	/**
+	 * This method would search for the first occurrence of the substring within the
+	 * list of all nodes obtained from the depth first search algorithm
+	 * 
+	 * @param user          - This is the starting node to begin the DFS
+	 * @param tweetKeyword: The substring to search for
+	 * @return the first occurrence of the tweet that contains the substring
+	 */
+
 	// search for a keyword in a tweet starting from a given node
 	public String searchTweet(TwitterHandle user, String tweetKeyword) {
-		throw new java.lang.UnsupportedOperationException("Not supported yet.");
+
+		System.out.println("puffy");
+		// Always set the boolean to true because we only interested in successors
+		List<Node<String>> successors = this.depthFirstSearch(user, true);
+
+		// Traverse through all the nodes within the successors list and return the
+		// first node that tweeted the substring
+
+		for (Node<String> twitterAccount : successors) {
+			for (int i = 0; i < nodeTweets.get(twitterAccount).size(); i++) {
+				if (getTweets(twitterAccount).get(i).getTextString().indexOf(tweetKeyword) >= 0) {
+					TwitterHandle desiredNode = new TwitterHandle(twitterAccount.getValue());
+					return "The tweet string found is: " + getTweetsTexts(desiredNode).get(i) + "\n" + "User "
+							+ desiredNode.getName() + " {" + desiredNode.getValue() + "} tweeted " + tweetKeyword;
+				}
+			}
+		}
+
+		return "No successor of " + user.getName() + "tweeted " + tweetKeyword;
+
 	}
 }
