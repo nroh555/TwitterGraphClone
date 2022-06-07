@@ -53,7 +53,6 @@ public class TweetGraph extends Graph {
 	// search for a keyword in a tweet starting from a given node
 	public String searchTweet(TwitterHandle user, String tweetKeyword) {
 
-		System.out.println("puffy");
 		// Always set the boolean to true because we only interested in successors
 		List<Node<String>> successors = this.depthFirstSearch(user, true);
 

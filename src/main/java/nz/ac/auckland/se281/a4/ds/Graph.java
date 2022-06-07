@@ -98,7 +98,7 @@ public class Graph {
 	 * @return true if the relation is symmetric
 	 */
 	public boolean isSymmetric(List<String> relation) {
-		for (int i = 0; i < relation.size() - 1; i++) {
+		for (int i = 0; i < relation.size(); i++) {
 			// Splits the node string into two, source and target
 			String[] node = relation.get(i).split(",", 2);
 			String source = node[0];
@@ -252,50 +252,45 @@ public class Graph {
 		List<Node<String>> visited = new ArrayList<Node<String>>();
 
 		queue.append(root);
+		visited.add(root);
 
-		while (queue.size() != 0) {
+		while (visited.size() < this.getAllNodes().size()) {
 
-			// Creates a variable that determine the previous size of the visited iteration
-			// to check for connectedness
-			int prevSize = visited.size();
-			int prevQueueSize = queue.size();
-			Node<String> prevRoot = root;
+			while (queue.size() != 0) {
 
-			for (int i = 0; i < adjacencyMap.get(root).size(); i++) {
-				if (!(visited.contains(adjacencyMap.get(root).get(i).getTarget()))) {
-					queue.append(adjacencyMap.get(root).get(i).getTarget());
-				}
-			}
-
-			// Adds the element front of the queue to the visited list nodes
-			if (!(visited.contains(queue.get(0)))) {
-				visited.add(queue.get(0));
-			}
-
-			// In the case when there are not connected components
-			if (!rooted && visited.size() < adjacencyMap.keySet().size() && visited.size() == prevSize
-					&& prevQueueSize == queue.size()) {
-				this.root = getNextNode();
-				// The case when we have reached the end of the textual order
-				if (this.root == null) {
-					return visited;
+				// Only check nodes that are present within the key set
+				if (adjacencyMap.containsKey(root)) {
+					for (int i = 0; i < adjacencyMap.get(root).size(); i++) {
+						if (!(visited.contains(adjacencyMap.get(root).get(i).getTarget()))) {
+							queue.append(adjacencyMap.get(root).get(i).getTarget());
+						}
+					}
 				}
 
-				if (!(visited.contains(root))) {
-					visited.add(root);
+				// Adds the element front of the queue to the visited list nodes
+				if (!(visited.contains(queue.get(0)))) {
+					visited.add(queue.get(0));
 				}
-				continue;
-			}
 
-			// Only deals with connected components
-			else {
 				this.root = queue.get(0);
-				if (!(adjacencyMap.containsKey(root))) {
-					this.root = prevRoot;
-				}
+				queue.remove(0);
 			}
 
-			queue.remove(0);
+			// If rooted is true then do not traverse through all nodes
+			if (rooted) {
+				return visited;
+			}
+
+			else {
+				// Checks if the last root is within the key set
+				if (adjacencyMap.containsKey(root)) {
+					this.root = getNextNode(root);
+					// In the case that it is not, get the previous visited node.
+				} else {
+					this.root = getNextNode(visited.get(visited.size() - 2));
+				}
+				queue.append(root);
+			}
 		}
 
 		return visited;
@@ -332,50 +327,51 @@ public class Graph {
 		stack.prepend(root);
 		visited.add(root);
 
-		while (stack.size() != 0) {
+		while (visited.size() < this.getAllNodes().size()) {
 
-			// Creates a variable that determine the previous size of the visited iteration
-			// to check for connectedness
-			int prevSize = visited.size();
-			int prevStackSize = stack.size();
-			Node<String> prevRoot = root;
+			while (stack.size() != 0) {
 
-			for (int i = 0; i < adjacencyMap.get(root).size(); i++) {
-				if (!(visited.contains(adjacencyMap.get(root).get(i).getTarget()))) {
-					stack.prepend(adjacencyMap.get(root).get(i).getTarget());
-				}
-			}
-
-			// Adds the top element of the stack to the visited list nodes
-			if (!(visited.contains(stack.get(0)))) {
-				visited.add(stack.get(0));
-			}
-
-			// In the case when there are not connected components
-			if (!rooted && visited.size() < adjacencyMap.keySet().size() && visited.size() == prevSize
-					&& prevStackSize == stack.size()) {
-				this.root = getNextNode();
-				// The case when we have reached the end of the textual order
-				if (this.root == null) {
-					return visited;
+				// Only check nodes that are present within the key set
+				if (adjacencyMap.containsKey(root)) {
+					for (int i = 0; i < adjacencyMap.get(root).size(); i++) {
+						if (!(visited.contains(adjacencyMap.get(root).get(i).getTarget()))) {
+							stack.prepend(adjacencyMap.get(root).get(i).getTarget());
+						}
+					}
 				}
 
+				// Adds the top element of the stack to the visited list nodes
+				if (!(visited.contains(stack.get(0)))) {
+					visited.add(stack.get(0));
+				}
+
+				this.root = stack.get(0);
+				stack.remove(0);
+			}
+
+			// If rooted is true then do not traverse through all nodes
+			if (rooted) {
+				return visited;
+			}
+
+			else {
+				// Checks if the last root is within the key set
+				if (adjacencyMap.containsKey(root)) {
+					this.root = getNextNode(root);
+				}
+				// In the case that it is not, get the previous visited node.
+				else {
+					this.root = getNextNode(visited.get(visited.size() - 2));
+				}
+
+				// Unlike bfs, need to add to visited upon prepending to the stack
+				stack.prepend(root);
 				if (!(visited.contains(root))) {
 					visited.add(root);
 				}
-				continue;
 			}
-
-			// Only deals with connected components
-			else {
-				this.root = stack.get(0);
-				if (!(adjacencyMap.containsKey(root))) {
-					this.root = prevRoot;
-				}
-			}
-
-			stack.remove(0);
 		}
+
 		return visited;
 
 	}
@@ -384,13 +380,14 @@ public class Graph {
 	 * This method would determine the next node in textual order of a graph that is
 	 * not connected provided rooted is false
 	 * 
+	 * @param lastNode: The last visited node if no neighbors exists
 	 * @return The next node in textual order
 	 */
 
-	public Node<String> getNextNode() {
+	public Node<String> getNextNode(Node<String> lastNode) {
 		boolean next = false;
 		for (Node<String> nextNode : adjacencyMap.keySet()) {
-			if (nextNode.equals(root)) {
+			if (nextNode.equals(lastNode)) {
 				// Skips the current iteration the moment the desired not connected node is
 				// found
 				next = true;

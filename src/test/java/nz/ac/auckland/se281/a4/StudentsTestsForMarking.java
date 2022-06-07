@@ -417,6 +417,8 @@ public class StudentsTestsForMarking {
 			file2result.put("g1.txt", false);
 			file2result.put("g2.txt", false);
 			file2result.put("h1.txt", true);
+			file2result.put("d.txt", true);
+			file2result.put("e.txt", true);
 		}
 
 		@Before
@@ -481,6 +483,18 @@ public class StudentsTestsForMarking {
 
 		}
 
+		@Test
+		public void T3_10_Reflexive_D() {
+			runTest("d.txt", "-r");
+
+		}
+
+		@Test
+		public void T3_11_Reflexive_E() {
+			runTest("e.txt", "-r");
+
+		}
+
 	}
 
 	/**
@@ -501,6 +515,8 @@ public class StudentsTestsForMarking {
 			file2result.put("g1.txt", false);
 			file2result.put("g2.txt", false);
 			file2result.put("h1.txt", true);
+			file2result.put("d.txt", false);
+			file2result.put("e.txt", true);
 		}
 
 		@Before
@@ -564,6 +580,17 @@ public class StudentsTestsForMarking {
 
 		}
 
+		@Test
+		public void T3_18_Symmetric_D() {
+			runTest("d.txt", "-s");
+
+		}
+
+		@Test
+		public void T3_19_Symmetric_E() {
+			runTest("e.txt", "-s");
+		}
+
 	}
 
 	/**
@@ -583,6 +610,8 @@ public class StudentsTestsForMarking {
 			file2result.put("g1.txt", false);
 			file2result.put("g2.txt", false);
 			file2result.put("h1.txt", true);
+			file2result.put("d.txt", true);
+			file2result.put("e.txt", true);
 		}
 
 		@Before
@@ -641,6 +670,16 @@ public class StudentsTestsForMarking {
 		public void T3_23_Transitive_H1() {
 			runTest("h1.txt", "-t");
 		}
+
+		@Test
+		public void T3_24_Transitive_D() {
+			runTest("d.txt", "-t");
+		}
+
+		@Test
+		public void T3_25_Transitive_E() {
+			runTest("e.txt", "-t");
+		}
 	}
 
 	/**
@@ -660,6 +699,8 @@ public class StudentsTestsForMarking {
 			file2result.put("g1.txt", false);
 			file2result.put("g2.txt", false);
 			file2result.put("h1.txt", true);
+			file2result.put("d.txt", false);
+			file2result.put("e.txt", true);
 		}
 
 		@Before
@@ -722,6 +763,19 @@ public class StudentsTestsForMarking {
 			runTest("h1.txt", "-e");
 
 		}
+
+		@Test
+		public void T3_31_D() {
+			runTest("d.txt", "-e");
+
+		}
+
+		@Test
+		public void T3_32_E() {
+			runTest("e.txt", "-e");
+
+		}
+
 	}
 
 	/**
@@ -741,6 +795,8 @@ public class StudentsTestsForMarking {
 			file2result.put("g1.txt", false);
 			file2result.put("g2.txt", false);
 			file2result.put("h1.txt", true);
+			file2result.put("d.txt", false);
+			file2result.put("e.txt", true);
 		}
 
 		@Before
@@ -831,6 +887,21 @@ public class StudentsTestsForMarking {
 			});
 		}
 
+		@Test
+		public void T3_39_D() {
+			runTest("d.txt", "2");
+		}
+
+		@Test
+		public void T3_40_E() {
+			runTest("e.txt", "0");
+			runTestGraph("h1.txt", "0", new ArrayList<String>() {
+				{
+					add("0");
+				}
+			});
+		}
+
 	}
 
 	/**
@@ -884,6 +955,7 @@ public class StudentsTestsForMarking {
 					add(new TwitterHandle("3"));
 					add(new TwitterHandle("5"));
 					add(new TwitterHandle("4"));
+					add(new TwitterHandle("6"));
 				}
 			});
 
@@ -905,6 +977,46 @@ public class StudentsTestsForMarking {
 					add(new TwitterHandle("2"));
 					add(new TwitterHandle("3"));
 					add(new TwitterHandle("0"));
+				}
+			});
+
+			file2result_BFS.put("d.txt", new ArrayList<TwitterHandle>() {
+				{
+					add(new TwitterHandle("0"));
+					add(new TwitterHandle("1"));
+					add(new TwitterHandle("2"));
+				}
+			});
+
+			file2result_BFS.put("e.txt", new ArrayList<TwitterHandle>() {
+				{
+					add(new TwitterHandle("0"));
+					add(new TwitterHandle("1"));
+					add(new TwitterHandle("2"));
+				}
+			});
+
+			file2result_BFS.put("p.txt", new ArrayList<TwitterHandle>() {
+				{
+					add(new TwitterHandle("1"));
+					add(new TwitterHandle("2"));
+					add(new TwitterHandle("4"));
+					add(new TwitterHandle("5"));
+					add(new TwitterHandle("3"));
+					add(new TwitterHandle("6"));
+					add(new TwitterHandle("7"));
+					add(new TwitterHandle("8"));
+				}
+			});
+
+			file2result_BFS.put("r.txt", new ArrayList<TwitterHandle>() {
+				{
+					add(new TwitterHandle("2"));
+					add(new TwitterHandle("3"));
+					add(new TwitterHandle("1"));
+					add(new TwitterHandle("5"));
+					add(new TwitterHandle("6"));
+					add(new TwitterHandle("4"));
 				}
 			});
 		}
@@ -949,6 +1061,26 @@ public class StudentsTestsForMarking {
 		@Test
 		public void T3_53_H1() {
 			runTest("h1.txt");
+		}
+
+		@Test
+		public void T3_54_D() {
+			runTest("d.txt");
+		}
+
+		@Test
+		public void T3_55_E() {
+			runTest("e.txt");
+		}
+
+		@Test
+		public void T3_56_P() {
+			runTest("p.txt");
+		}
+
+		@Test
+		public void T3_56_R() {
+			runTest("r.txt");
 		}
 	}
 
@@ -1003,9 +1135,9 @@ public class StudentsTestsForMarking {
 					add(new TwitterHandle("7"));
 					add(new TwitterHandle("4"));
 					add(new TwitterHandle("5"));
-					add(new TwitterHandle("6"));
 					add(new TwitterHandle("2"));
 					add(new TwitterHandle("3"));
+					add(new TwitterHandle("6"));
 				}
 			});
 
@@ -1015,6 +1147,9 @@ public class StudentsTestsForMarking {
 					add(new TwitterHandle("4"));
 					add(new TwitterHandle("7"));
 					add(new TwitterHandle("6"));
+					add(new TwitterHandle("5"));
+					add(new TwitterHandle("3"));
+					add(new TwitterHandle("2"));
 				}
 			});
 
@@ -1024,6 +1159,46 @@ public class StudentsTestsForMarking {
 					add(new TwitterHandle("2"));
 					add(new TwitterHandle("3"));
 					add(new TwitterHandle("0"));
+				}
+			});
+
+			file2result_DFS.put("d.txt", new ArrayList<TwitterHandle>() {
+				{
+					add(new TwitterHandle("0"));
+					add(new TwitterHandle("1"));
+					add(new TwitterHandle("2"));
+				}
+			});
+
+			file2result_DFS.put("e.txt", new ArrayList<TwitterHandle>() {
+				{
+					add(new TwitterHandle("0"));
+					add(new TwitterHandle("1"));
+					add(new TwitterHandle("2"));
+				}
+			});
+
+			file2result_DFS.put("p.txt", new ArrayList<TwitterHandle>() {
+				{
+					add(new TwitterHandle("1"));
+					add(new TwitterHandle("4"));
+					add(new TwitterHandle("7"));
+					add(new TwitterHandle("6"));
+					add(new TwitterHandle("5"));
+					add(new TwitterHandle("3"));
+					add(new TwitterHandle("2"));
+					add(new TwitterHandle("8"));
+				}
+			});
+
+			file2result_DFS.put("r.txt", new ArrayList<TwitterHandle>() {
+				{
+					add(new TwitterHandle("2"));
+					add(new TwitterHandle("3"));
+					add(new TwitterHandle("1"));
+					add(new TwitterHandle("5"));
+					add(new TwitterHandle("6"));
+					add(new TwitterHandle("4"));
 				}
 			});
 		}
@@ -1068,6 +1243,26 @@ public class StudentsTestsForMarking {
 		@Test
 		public void T3_60_H1() {
 			runTest("h1.txt");
+		}
+
+		@Test
+		public void T3_61_D() {
+			runTest("d.txt");
+		}
+
+		@Test
+		public void T3_62_E() {
+			runTest("e.txt");
+		}
+
+		@Test
+		public void T3_63_P() {
+			runTest("p.txt");
+		}
+
+		@Test
+		public void T3_64_R() {
+			runTest("r.txt");
 		}
 	}
 

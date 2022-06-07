@@ -33,6 +33,8 @@ public class LinkedList<T> {
 			throw new InvalidPositionException();
 		}
 
+		// Iterates through all the nodes in the linked list within reference to head
+		// until desired node is found
 		else {
 			Node<T> start = head;
 			for (int i = 0; i < pos; i++) {
