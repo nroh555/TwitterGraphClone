@@ -45,9 +45,10 @@ public class TweetGraph extends Graph {
 	 * This method would search for the first occurrence of the substring within the
 	 * list of all nodes obtained from the depth first search algorithm
 	 * 
-	 * @param user          - This is the starting node to begin the DFS
-	 * @param tweetKeyword: The substring to search for
-	 * @return the first occurrence of the tweet that contains the substring
+	 * @param user         This is the starting node to begin the DFS
+	 * @param tweetKeyword The substring to search for
+	 * @return tweetText the first occurrence of the tweet that contains the
+	 *         substring
 	 */
 
 	// search for a keyword in a tweet starting from a given node

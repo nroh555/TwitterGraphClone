@@ -1284,11 +1284,13 @@ public class StudentsTestsForMarking {
 			file2result_tweet_search.put("f.txt",
 					"The tweet string found is: A girl afforded towards any bonsai over a jumper stroked the otter.\n"
 							+ "User Hailey Bartoletti {7} tweeted girl");
-			file2result_tweet_search.put("g2.txt", "No successor of Delpha Dickinsontweeted puffyBard");
-			file2result_tweet_search.put("h1.txt",
-					"The tweet string found is: Any psychology landed into one otter on the branch invited any squirrel.\n"
-							+ "User Lauretta Crona {2} tweeted otter");
-
+			file2result_tweet_search.put("g1.txt",
+					"The tweet string found is: The linen concerned below the chick into some basket forbade a bow.\n"
+							+ "User Hailey Bartoletti {7} tweeted linen");
+			file2result_tweet_search.put("g2.txt",
+					"The tweet string found is: One collision regreted before a locust till some trunk cared one cauliflower.\n"
+							+ "User Yadira Kirlin {4} tweeted cauliflower");
+			file2result_tweet_search.put("h1.txt", "No successor of Delpha Dickinsontweeted puffyBard");
 		}
 
 		private void runTest(String fileName, String user, String keyword) {
@@ -1323,14 +1325,20 @@ public class StudentsTestsForMarking {
 		}
 
 		@Test
+		public void T4_06_G1() {
+			runTest("g1.txt", "1", "linen");
+		}
+
+		@Test
 		public void T4_08_G2() {
-			runTest("g2.txt", "1", "puffyBard");
+			runTest("g2.txt", "1", "cauliflower");
 		}
 
 		@Test
 		public void T4_09_H1() {
-			runTest("h1.txt", "2", "otter");
+			runTest("h1.txt", "1", "puffyBard");
 		}
+
 	}
 
 }
