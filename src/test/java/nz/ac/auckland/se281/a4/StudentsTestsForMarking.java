@@ -348,6 +348,17 @@ public class StudentsTestsForMarking {
 		}
 
 		@Test
+		public void T2_15_B_Remove_String() {
+			LinkedList<String> edges = new LinkedList<String>();
+			edges.append("Puffy");
+			edges.append("A");
+			edges.prepend("C");
+			edges.remove(1);
+			assertEquals((String) "A", edges.get(1));
+			assertEquals(2, edges.size());
+		}
+
+		@Test
 		public void T2_16_Insert() {
 			LinkedList<Integer> edges = new LinkedList<Integer>();
 			edges.insert(0, 1);

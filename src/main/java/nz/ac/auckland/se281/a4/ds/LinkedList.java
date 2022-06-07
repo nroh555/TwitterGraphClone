@@ -166,7 +166,6 @@ public class LinkedList<T> {
 				// The node to be deleted
 				Node<T> current = previous.getNext();
 				previous.setNext(current.getNext());
-				current = null;
 			}
 		}
 	}

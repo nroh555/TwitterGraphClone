@@ -107,7 +107,7 @@ public class Graph {
 			String opposite = target + "," + source;
 
 			if (!(relation.contains(opposite))) {
-				System.out.println("For the graph t be symmetric tuple: " + opposite + " MUST be present");
+				System.out.println("For the graph to be symmetric tuple: " + opposite + " MUST be present");
 				return false;
 			}
 		}

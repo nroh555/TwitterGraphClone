@@ -57,6 +57,8 @@ public class TweetGraph extends Graph {
 		// Always set the boolean to true because we only interested in successors
 		List<Node<String>> successors = this.depthFirstSearch(user, true);
 
+		System.out.println(successors);
+
 		// Traverse through all the nodes within the successors list and return the
 		// first node that tweeted the substring
 
